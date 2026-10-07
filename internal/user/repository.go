@@ -15,15 +15,13 @@ func NewRepository(db *gorm.DB) *Repository {
 func (r *Repository) CreateUser(user *User) error {
 	return r.db.Create(user).Error
 }
-
 func (r *Repository) FindByUsername(username string) (*User, error) {
 	var user User
 
-	err := r.db.First(&user, username).Error
+	err := r.db.Where("username = ?", username).First(&user).Error
 	if err != nil {
 		return nil, err
 	}
 
 	return &user, nil
-
 }
